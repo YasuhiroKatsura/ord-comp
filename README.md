@@ -7,7 +7,7 @@
 - Numpy 1.17
 - Matplotlib 3.1
 
-## Reproduce the Experiment demonstrated in our Paper
+## Reproduce the Experiment Demonstrated in our Paper
 
 Experimental dataset requires to be provided multiple *complemenary labels* (or equivalently, *candidate labels*) by an *annotator*, according to the data-generation probability model defined in our paper.
 The pretrained annotators used in our experiment are available [here](https://drive.google.com/file/d/11oNgzIsh9aGfmlyy9Cmb5uZsFy1C29nk/view?usp=sharing).
