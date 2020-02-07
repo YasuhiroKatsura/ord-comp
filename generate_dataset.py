@@ -14,7 +14,7 @@ device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 
 parser = argparse.ArgumentParser(description='Generate annotated dataset')
-parser.add_argument('--dset_name', '-dn', type=str, default='mnist', choices=['mnist', 'fashion', 'kuzushi', 'cifar10'])
+parser.add_argument('--dset_name', '-dn', type=str, default='mnist', choices=['mnist', 'fashion', 'kuzushiji', 'cifar10'])
 parser.add_argument('--num_classes', '-K', type=int, default=10)
 parser.add_argument('--num_candidates', '-N', type=int, default=9)
 parser.add_argument('--train_batch_size', '-train_bs', type=int, default=64)
@@ -107,7 +107,7 @@ if __name__ == '__main__':
         dataloader = datasets.MNIST
     elif args.dset_name == 'fashion':
         dataloader = datasets.FashionMNIST
-    elif args.dset_name == 'kuzushi':
+    elif args.dset_name == 'kuzushiji':
         dataloader = datasets.KMNIST
     elif args.dset_name == 'cifar10':
         dataloader = datasets.CIFAR10

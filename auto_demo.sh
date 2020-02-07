@@ -3,7 +3,7 @@
 n=$1
 
 
-dset_name_list=('mnist' 'fashion' 'kuzushi' 'cifar10')
+dset_name_list=('mnist' 'fashion' 'kuzushiji' 'cifar10')
 K_list=(10 5)
 loss_list=('ova' 'pc')
 
@@ -31,7 +31,7 @@ do
 
         for N in ${N_list[@]}
         do
-            python generate_comp_dataset.py -K $K -N $N -dn $dset_name
+            python generate_dataset.py -K $K -N $N -dn $dset_name
         done
 
         for N in ${N_list[@]}

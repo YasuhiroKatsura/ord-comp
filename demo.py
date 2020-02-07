@@ -9,13 +9,13 @@ from utils import *
 from utils.comp_datasets import CompDataset as dataloader
 
 DATADIR = './data/'
-LOGDIR = './logs'
+LOGDIR = './logs/learning'
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 
-parser = argparse.ArgumentParser(description='Generate annotated dataset')
-parser.add_argument('--dset_name', '-dn', type=str, default='mnist', choices=['mnist', 'fashion', 'kuzushi', 'cifar10'])
+parser = argparse.ArgumentParser(description='Demonstrate experiment')
+parser.add_argument('--dset_name', '-dn', type=str, default='mnist', choices=['mnist', 'fashion', 'kuzushiji', 'cifar10'])
 parser.add_argument('--num_classes', '-K', type=int, default=10)
 parser.add_argument('--num_candidates', '-N', type=int, default=9)
 parser.add_argument('--num_data', '-n', type=int, default=1000)
@@ -91,7 +91,7 @@ if __name__ == '__main__':
         input_dim = 1*28*28
     elif args.dset_name == 'fashion':
         input_dim = 1*28*28
-    elif args.dset_name == 'kuzushi':
+    elif args.dset_name == 'kuzushiji':
         input_dim = 1*28*28
     elif args.dset_name == 'cifar10':
         input_dim = 3*32*32
