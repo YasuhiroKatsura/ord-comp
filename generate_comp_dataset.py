@@ -8,7 +8,7 @@ from utils import *
 from utils.comp_datasets import CompDataset
 
 DATADIR = './data/'
-CKPTDIR = './checkpoints/'
+CKPTDIR = './annotators/'
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
@@ -89,13 +89,14 @@ def train_annotator(best_acc):
 
 
 def annotate_dataset():
+    print("Number of candidate labels:",str(args.num_candidates), '/', str(args.num_classes))
     print("Accuracy of annotator: ", best_acc)
     print("==> Calculateing generation probabilities for training set")
     generation_prob = predict(comp_train_loader)
     CompDataset(DATADIR, args.dset_name, args.num_classes, args.num_candidates, train=True, annotate=True, \
         original_dataset=comp_train_set, generation_prob=generation_prob)
 
-    print("==> Calculateing generation probabilities for test set")
+    print("==> Calculateing generation probabilities for test set\n")
     generation_prob = predict(test_loader)
     CompDataset(DATADIR, args.dset_name, args.num_classes, args.num_candidates, train=False, annotate=True, \
         original_dataset=test_set, generation_prob=generation_prob)

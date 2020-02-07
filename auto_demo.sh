@@ -18,6 +18,7 @@ do
 
     for dset_name in ${dset_name_list[@]}
     do
+        echo $dset_name
         if [ $dset_name != 'cifar10' ];then
             model='mlp'
             weight_decay=0.0001
