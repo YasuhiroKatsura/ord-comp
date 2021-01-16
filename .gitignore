@@ -2,8 +2,16 @@
 /annotators/
 /logs/
 
+/logs-paper/
+/results_exp1.py
+/results_exp2.py
+/error-K10.png
+/error-K5.png
+
 /utils/__pycache__/
 
+/data.zip
 /annotators.zip
 /logs.zip
+/.DS_Store
 

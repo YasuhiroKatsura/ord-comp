@@ -1,7 +1,8 @@
 #!/bin/bash
 
-n=$1
+# bash code for the experiment presented in Section 6
 
+n=1000
 
 dset_name_list=('mnist' 'fashion' 'kuzushiji' 'cifar10')
 K_list=(10 5)
@@ -22,24 +23,28 @@ do
         if [ $dset_name != 'cifar10' ];then
             model='mlp'
             weight_decay=0.0001
-            learning_rate=5e-5
+            learning_rate=5e-4
         else
             model='densenet'
             weight_decay=5e-4
             learning_rate=0.01
         fi
 
+        # dataset generation
+        # skip the following if the dataset is already annotated
         for N in ${N_list[@]}
         do
-            python generate_dataset.py -K $K -N $N -dn $dset_name
+            python generate_dataset.py -K $K -N $N -ds $dset_name
         done
 
+        # demo
         for N in ${N_list[@]}
         do
             for loss in ${loss_list[@]}
             do
-                echo -e "\n--\nNumber of requests: " $N "/" $K
-                python demo.py -K $K -N $N -n $n -dn $dset_name -m $model -ml $loss -wd $weight_decay -lr $learning_rate
+                echo -e "\n--\nNumber of candidates: " $N "/" $K
+                # unbiased estimation of the risk R(f)
+                python demo.py -K $K -N $N -n $n -ds $dset_name -m $model -ml $loss -wd $weight_decay -lr $learning_rate -nt 3 -ne 300 -ub
             done
         done
     done

@@ -5,7 +5,7 @@ import torch
 import torchvision.datasets as datasets
 import argparse
 from utils import *
-from utils.comp_datasets import CompDataset
+from utils.cand_datasets import CandDataset
 
 DATADIR = './data/'
 CKPTDIR = './annotators/'
@@ -14,7 +14,7 @@ device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 
 parser = argparse.ArgumentParser(description='Generate annotated dataset')
-parser.add_argument('--dset_name', '-dn', type=str, default='mnist', choices=['mnist', 'fashion', 'kuzushiji', 'cifar10'])
+parser.add_argument('--dset_name', '-ds', type=str, default='mnist', choices=['mnist', 'fashion', 'kuzushiji', 'cifar10'])
 parser.add_argument('--num_classes', '-K', type=int, default=10)
 parser.add_argument('--num_candidates', '-N', type=int, default=9)
 parser.add_argument('--train_batch_size', '-train_bs', type=int, default=64)
@@ -92,13 +92,13 @@ def annotate_dataset():
     print("Number of candidate labels:",str(args.num_candidates), '/', str(args.num_classes))
     print("Accuracy of annotator: ", best_acc)
     print("==> Calculateing generation probabilities for training set")
-    generation_prob = predict(comp_train_loader)
-    CompDataset(DATADIR, args.dset_name, args.num_classes, args.num_candidates, train=True, annotate=True, \
-        original_dataset=comp_train_set, generation_prob=generation_prob)
+    generation_prob = predict(cand_train_loader)
+    CandDataset(DATADIR, args.dset_name, args.num_classes, args.num_candidates, train=True, annotate=True, \
+        original_dataset=cand_train_set, generation_prob=generation_prob)
 
     print("==> Calculateing generation probabilities for test set\n")
     generation_prob = predict(test_loader)
-    CompDataset(DATADIR, args.dset_name, args.num_classes, args.num_candidates, train=False, annotate=True, \
+    CandDataset(DATADIR, args.dset_name, args.num_classes, args.num_candidates, train=False, annotate=True, \
         original_dataset=test_set, generation_prob=generation_prob)
 
 
@@ -118,9 +118,9 @@ if __name__ == '__main__':
 
     ckptpath, exist = get_available_filepath(CKPTDIR, args.dset_name, filename)
 
-    ord_train_loader, comp_train_loader, test_loader\
+    ord_train_loader, cand_train_loader, test_loader\
         = get_dataloaders_for_annotation(dataloader, DATADIR, args.num_classes, args.train_batch_size, args.test_batch_size)
-    comp_train_set, test_set = comp_train_loader.dataset, test_loader.dataset
+    cand_train_set, test_set = cand_train_loader.dataset, test_loader.dataset
 
     model = CIFARAnnotator(args.num_classes) if args.dset_name == 'cifar10' else MNISTAnnotator(args.num_classes)
 

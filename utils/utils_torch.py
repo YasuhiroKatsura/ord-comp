@@ -38,17 +38,17 @@ def filter_classes(dataset, num_classes):
 
 def get_dataloaders_for_annotation(dataloader, datadir, num_classes, train_batch_size, test_batch_size):
     ord_train_set = filter_classes(dataloader(root=datadir, train=True, download=True), num_classes)
-    comp_train_set = ord_train_set
-    ord_train_set.transform, comp_train_set.transform = transform_train, transform_test
+    cand_train_set = ord_train_set
+    ord_train_set.transform, cand_train_set.transform = transform_train, transform_test
 
     test_set = filter_classes(dataloader(root=datadir, train=False, download=True, transform=transform_test), num_classes)
 
     return DataLoader(dataset=ord_train_set, batch_size=train_batch_size, shuffle=True, num_workers=2),\
-           DataLoader(dataset=comp_train_set, batch_size=test_batch_size, shuffle=False, num_workers=2),\
+           DataLoader(dataset=cand_train_set, batch_size=test_batch_size, shuffle=False, num_workers=2),\
            DataLoader(dataset=test_set, batch_size=test_batch_size, shuffle=False, num_workers=2)
 
 
-def get_comp_dataloader(dataloader, datadir, dset_name, num_classes, num_candidates, num_data, train_batch_size, test_batch_size):
+def get_cand_dataloader(dataloader, datadir, dset_name, num_classes, num_candidates, num_data, train_batch_size, test_batch_size):
     train_set = dataloader(root=datadir, dset_name=dset_name, num_classes=num_classes, num_candidates=num_candidates, num_data=num_data, train=True, transform=transform_train)
     test_set = dataloader(root=datadir, dset_name=dset_name, num_classes=num_classes, num_candidates=num_candidates, train=False, transform=transform_test)
 

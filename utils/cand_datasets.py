@@ -13,7 +13,7 @@ import os
 import random
 
 
-class CompDataset(Dataset):
+class CandDataset(Dataset):
     training_file = '_training.pt'
     test_file = '_test.pt'
 
@@ -45,10 +45,11 @@ class CompDataset(Dataset):
 
                 if not os.path.exists(self.processed_dir):
                     os.makedirs(self.processed_dir)
-                print("Saving comp dataset")
+                print("Saving cand dataset")
                 torch.save((data, candidates, self.original_targets), datapath)
 
                 self.data, self.candidates = data, candidates
+
         else:
             self.data, self.candidates, self.original_targets = torch.load(datapath)
 
@@ -56,9 +57,9 @@ class CompDataset(Dataset):
                 print("dataset name: %s\nnumber of classes: %d\nnumber of candidates: %d\n--" %\
                     (dset_name, self.num_classes, self.num_candidates))
                 self.data, self.candidates = self._filter_excess_data()
-
+            
             else:
-                print("comp dataset for test")
+                print("cand dataset for test")
 
 
     def __len__(self):
@@ -127,4 +128,3 @@ class CompDataset(Dataset):
         over = reduce(mul, range(n, n - r, -1))
         under = reduce(mul, range(1,r + 1))
         return under / over
-

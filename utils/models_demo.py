@@ -16,12 +16,13 @@ class MLP(nn.Module):
         self.relu1 = nn.ReLU()
         self.fc2 = nn.Linear(hidden_dim, num_classes)
 
+
     def forward(self, x):
         x = torch.squeeze(x.view(-1, self.input_dim), 0)
         out = self.fc1(x)
         out = self.relu1(out)
         out = self.fc2(out)
-        return F.softmax(out, dim=1) - 1/2
+        return out
 
 
 class Linear(nn.Module):
@@ -43,7 +44,7 @@ class DenseNet(nn.Module):
         self.base_model = cnn.densenet161(num_classes=num_classes)
 
     def forward(self, x):
-        return F.softmax(self.base_model(x), dim=1) - 1/2
+        return self.base_model(x)
 
 
 class ResNet(nn.Module):
@@ -52,6 +53,5 @@ class ResNet(nn.Module):
         self.base_model = cnn.resnet152(num_classes=num_classes)
 
     def forward(self, x):
-        return F.softmax(self.base_model(x), dim=1) - 1/2
-
+        return self.base_model(x)
 

@@ -27,3 +27,17 @@ def get_available_filepath(*args):
     return filepath, exist
 
 
+def get_logpath(args):
+    if args.multi_loss == 'ce':
+        logdir = args.model +'-'+ args.multi_loss
+    else:
+        logdir = args.model +'-'+ args.multi_loss +'-'+ args.binary_loss
+
+    if args.unbiased:
+        LOGDIR = './logs/unbiased'
+    else:
+        LOGDIR = './logs/denoise'
+
+    filename = 'K'+ str(args.num_classes) +'_N'+ str(args.num_candidates) +'_n'+ str(args.num_data) +'_trial'
+    logpath, _ = get_available_filepath(LOGDIR, args.dset_name, logdir, filename)
+    return logpath
